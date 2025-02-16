@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Audio Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        textarea {
+            width: 80%;
+            height: 150px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Text to Audio Converter</h1>
+    <textarea id="textInput" placeholder="Enter your text here..."></textarea>
+    <br>
+    <button onclick="convertTextToAudio()">Convert to Audio</button>
+    <br><br>
+    <audio id="audioPlayer" controls></audio>
+
+    <script>
+        async function convertTextToAudio() {
+            const text = document.getElementById('textInput').value;
+            if (!text) {
+                alert("Please enter some text!");
+                return;
+            }
+
+            // Use a Text-to-Speech API (e.g., Google TTS, Amazon Polly, etc.)
+            const apiKey = 'YOUR_API_KEY'; // Replace with your API key
+            const apiUrl = `https://api.example.com/tts?text=${encodeURIComponent(text)}&key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl);
+                const audioBlob = await response.blob();
+                const audioUrl = URL.createObjectURL(audioBlob);
+                const audioPlayer = document.getElementById('audioPlayer');
+                audioPlayer.src = audioUrl;
+                audioPlayer.play();
+            } catch (error) {
+                console.error('Error converting text to audio:', error);
+                alert("An error occurred. Please try again.");
+            }
+        }
+    </script>
+</body>
+</html>
